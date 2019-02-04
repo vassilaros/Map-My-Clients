@@ -1,0 +1,42 @@
+<html>
+    <head>
+        <title>A Leaflet map!</title>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
+        <script src="https://maps.api.2gis.ru/2.0/loader.js?pkg=full"></script>
+        <style>
+            #map{ height: 100% }
+        </style>
+    </head>
+    <body>
+
+        <div id="map"></div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+        <script>
+            var counties = $.ajax({
+                url: "https://gist.githubusercontent.com/vassilaros/3791204ca226d5b236b4cd3106ef23cf/raw/PicnicSites.geojson",
+                dataType: "json",
+                success: console.log("County data successfully loaded."),
+                error: function(xhr) {
+                    alert(xhr.statusText)
+                }
+            })
+            $.when(counties).done(function() {
+                var map = L.map('map')
+                .setView([35.126411,33.429859], 9);
+
+                //tiles - http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png
+                var basemap = L.tileLayer('http://tile1.maps.2gis.com/tiles?x={x}&y={y}&z={z}', {
+                    attribution: '&copy; <a href="http://info.2gis.com/">2GIS</a> &copy; <a href="https://www.opencartography.com">Open Cartography</a>',
+                    subdomains: 'abcd',
+                    maxZoom: 19
+                }).addTo(map);
+                // Add requested external GeoJSON to map
+                var kyCounties = L.geoJSON(counties.responseJSON).addTo(map);
+                var scale = L.control.scale()
+                scale.addTo(map)
+            });
+
+        </script>
+    </body>
+</html>
