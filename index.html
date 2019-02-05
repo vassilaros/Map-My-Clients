@@ -28,13 +28,17 @@
             })
             $.when(counties).done(function() {
                 var map = L.map('map')
-                                .setView([35.126411,33.429859], 9);
-                                .maxBounds(bounds);
+                .setView([35.126411,33.429859], 9);
+                //.maxBounds(bounds);
 
                 //tiles - http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png
                 var basemap = L.tileLayer('http://tile1.maps.2gis.com/tiles?x={x}&y={y}&z={z}', {
                     attribution: '&copy; <a href="http://info.2gis.com/">2GIS</a> &copy; <a href="https://www.opencartography.com">Open Cartography</a>',
                     subdomains: 'abcd',
+                    maxBounds: [
+                        [34.072711,31.758391],
+                        [36.113055, 35.124228]
+                    ],
                     maxZoom: 19,
                     minZoom: 9
                 }).addTo(map);
