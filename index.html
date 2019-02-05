@@ -13,6 +13,11 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
         <script>
+
+            var southWest = L.latLng(34.072711,31.758391),
+                northEast = L.latLng(36.113055, 35.124228),
+                bounds = L.latLngBounds(southWest, northEast);
+
             var counties = $.ajax({
                 url: "https://gist.githubusercontent.com/vassilaros/3791204ca226d5b236b4cd3106ef23cf/raw/PicnicSites.geojson",
                 dataType: "json",
@@ -23,19 +28,25 @@
             })
             $.when(counties).done(function() {
                 var map = L.map('map')
-                .setView([35.126411,33.429859], 9);
+                                .setView([35.126411,33.429859], 9);
+                                .maxBounds(bounds);
 
                 //tiles - http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png
                 var basemap = L.tileLayer('http://tile1.maps.2gis.com/tiles?x={x}&y={y}&z={z}', {
                     attribution: '&copy; <a href="http://info.2gis.com/">2GIS</a> &copy; <a href="https://www.opencartography.com">Open Cartography</a>',
                     subdomains: 'abcd',
-                    maxZoom: 19
+                    maxZoom: 19,
+                    minZoom: 9
                 }).addTo(map);
+
                 // Add requested external GeoJSON to map
                 var kyCounties = L.geoJSON(counties.responseJSON).addTo(map);
                 var scale = L.control.scale()
                 scale.addTo(map)
+
+                L.version;
             });
+
 
         </script>
     </body>
