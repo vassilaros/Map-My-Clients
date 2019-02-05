@@ -14,10 +14,6 @@
         <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
         <script>
 
-            var southWest = L.latLng(34.072711,31.758391),
-                northEast = L.latLng(36.113055, 35.124228),
-                bounds = L.latLngBounds(southWest, northEast);
-
             var counties = $.ajax({
                 url: "https://gist.githubusercontent.com/vassilaros/3791204ca226d5b236b4cd3106ef23cf/raw/PicnicSites.geojson",
                 dataType: "json",
