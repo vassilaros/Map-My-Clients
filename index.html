@@ -25,7 +25,7 @@
             $.when(counties).done(function() {
                 var map = L.map('map')
                 .setView([35.126411,33.429859], 9);
-                //.maxBounds(bounds);
+                //.setMaxBounds(bounds);
 
                 //tiles - http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png
                 var basemap = L.tileLayer('http://tile1.maps.2gis.com/tiles?x={x}&y={y}&z={z}', {
@@ -44,10 +44,7 @@
                 var scale = L.control.scale()
                 scale.addTo(map)
 
-                L.version;
             });
-
-
         </script>
     </body>
 </html>
