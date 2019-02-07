@@ -1,53 +1,57 @@
+<!DOCTYPE html>
 <html>
     <head>
-        <title>A Leaflet map!</title>
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
-        <script src="https://maps.api.2gis.ru/2.0/loader.js?pkg=full"></script>
+        <title>Web Map</title>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
+              integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+              crossorigin=""/>
+        <!-- Make sure you put this AFTER Leaflet's CSS -->
+        <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
+                integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
+                crossorigin=""></script>
+        <!--<script src="https://maps.api.2gis.ru/2.0/loader.js?pkg=full"></script>-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+        <script src="js/leaflet-providers.js"></script>
         <style>
-            #map{ height: 100%;
-            border: solid 1px black;
+            #map {
+                width: 1150px;
+                height:750px;
+                border: solid 1px black;
             }
-
         </style>
+
     </head>
     <body>
 
         <div id="map"></div>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
         <script>
 
-            var counties = $.ajax({
-                url: "https://gist.githubusercontent.com/vassilaros/3791204ca226d5b236b4cd3106ef23cf/raw/PicnicSites.geojson",
-                dataType: "json",
-                success: console.log("County data successfully loaded."),
-                error: function(xhr) {
-                    alert(xhr.statusText)
-                }
-            })
-            $.when(counties).done(function() {
-                var map = L.map('map')
-                .setView([35.126411,33.429859], 9);
-                //.setMaxBounds(bounds);
+            var southWest = L.latLng(34.213648,32.093747),
+                northEast = L.latLng(35.935348,34.943453),
+                bounds = L.latLngBounds(southWest, northEast);
 
-                //tiles - http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png
-                var basemap = L.tileLayer('http://tile1.maps.2gis.com/tiles?x={x}&y={y}&z={z}', {
-                    attribution: '&copy; <a href="http://info.2gis.com/">2GIS</a> &copy; <a href="https://www.opencartography.com">Open Cartography</a>',
-                    subdomains: 'abcd',
-                    maxBounds: [
-                        [34.072711,31.758391],
-                        [36.113055, 35.124228]
-                    ],
-                    maxZoom: 19,
-                    minZoom: 9
-                }).addTo(map);
-
-                // Add requested external GeoJSON to map
-                var kyCounties = L.geoJSON(counties.responseJSON).addTo(map);
-                var scale = L.control.scale()
-                scale.addTo(map)
-
+            var map = L.map('map',{
+                center: [35.126411,33.429859],
+                maxBounds: bounds,
+                zoom: 9
             });
+
+            $.getJSON("https://gist.githubusercontent.com/vassilaros/3791204ca226d5b236b4cd3106ef23cf/raw/PicnicSites.geojson", function(data) { addDataToMap(data, map); });
+
+            L.tileLayer('http://tile1.maps.2gis.com/tiles?x={x}&y={y}&z={z}', {
+                attribution: '&copy; <a href="http://www.acgoldman.com/">Goldman Solutions & Services</a> contributors'}).addTo(map);
+
+            //https://savaslabs.com/2015/05/18/mapping-geojson.html
+            function addDataToMap(data, map) {
+                var dataLayer = L.geoJson(data, {
+                    onEachFeature: function(feature, layer) {
+                        var popupText = "name: " + feature.properties.name
+                        + "<br>Location: " + feature.properties.place
+                        + "<br><a href='" + feature.properties.url + "'>More info</a>";
+                        layer.bindPopup(popupText); }
+                });
+                dataLayer.addTo(map);
+            }
         </script>
     </body>
 </html>
