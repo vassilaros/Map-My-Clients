@@ -17,3 +17,6 @@ PicnicSites.geojson
 
 #ignore vtrigas_8625104_lcb.pdf filr - Leaflet Cookbook (book) locate press
 vtrigas_8625104_lcb.pdf
+/index_working_test.html
+/leaflet.ajax.min.js
+/js/
