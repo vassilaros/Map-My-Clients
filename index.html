@@ -40,7 +40,7 @@
                 zoomControl: false
             });
 
-            //Add control tool with full zoom
+            //Add control tool with full zoom (https://github.com/alanshaw/leaflet-zoom-min/)
             map.addControl(new L.Control.ZoomMin())
 
             $.getJSON("https://gist.githubusercontent.com/vassilaros/3791204ca226d5b236b4cd3106ef23cf/raw/PicnicSites.geojson", function(data) { addDataToMap(data, map); });
@@ -71,7 +71,7 @@
                 return this._div;
             };
             title.update = function () {
-                this._div.innerHTML = '<h2>Αποτελέσματα αναζήτησης</h2>Press shift + left click for box zooming'
+                this._div.innerHTML = '<h2>Αποτελέσματα αναζήτησης</h2>Press Shift + <img src="src/images/mouse-left-click.svg" style="width:10px;height:16px;" > for box zooming'
             };
             title.addTo(map);
 
