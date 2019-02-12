@@ -11,14 +11,21 @@
                 crossorigin=""></script>
         <!--<script src="https://maps.api.2gis.ru/2.0/loader.js?pkg=full"></script>-->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-        <script src="js/leaflet-providers.js"></script>
+
+        <!-- Leaflet Plugins -->
+        <link rel="stylesheet" href="../src/Control.MiniMap.css" />
+        <script src="../src/Control.MiniMap.js" type="text/javascript"></script>
+
+        <link rel="stylesheet" href="L.Control.ZoomMin.css" media="screen">
+        <script src="L.Control.ZoomMin.js"></script>
         <style>
             #map {
                 width: 1150px;
                 height:750px;
-                border: solid 1px black;
+                border: solid 1px gray;
             }
         </style>
+        <link rel="stylesheet" href="control.layers.minimap.css" />
     </head>
     <body>
         <div id="map"></div>
@@ -33,8 +40,12 @@
                 maxBounds: bounds,
                 minZoom: 9,
                 maxZoom: 17,
-                zoom: 9
+                zoom: 9,
+                zoomControl: false
             });
+
+            //Add control tool with full zoom (https://github.com/alanshaw/leaflet-zoom-min/)
+            map.addControl(new L.Control.ZoomMin())
 
             $.getJSON("https://gist.githubusercontent.com/vassilaros/3791204ca226d5b236b4cd3106ef23cf/raw/PicnicSites.geojson", function(data) { addDataToMap(data, map); });
 
@@ -45,7 +56,7 @@
             function addDataToMap(data, map) {
                 var dataLayer = L.geoJson(data, {
                     onEachFeature: function(feature, layer) {
-                        var popupText = "name: " + feature.properties.name
+                        var popupText = "Name: " + feature.properties.Name
                         + "<br>Location: " + feature.properties.place
                         + "<br><a href='" + feature.properties.url + "'>More info</a>";
                         layer.bindPopup(popupText); }
@@ -55,6 +66,32 @@
 
             //Add scale to map
             L.control.scale().addTo(map);
+
+            //Add title and subtitle
+            var title = new L.Control();
+            title.onAdd = function (map) {
+                this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+                this.update();
+                return this._div;
+            };
+            title.update = function () {
+                this._div.innerHTML = '<h2>Αποτέλεσμα αναζήτησης</h2>Press Shift + <img src="src/images/mouse-left-click.svg" style="width:10px;height:16px;" > for box zooming'
+            };
+            title.addTo(map);
+
+
+            //Mini map
+            map.setView(new L.LatLng(35.126411,33.429859),9); // add correct lat/lng
+            var miniMap = new L.Control.MiniMap(L.tileLayer('http://tile1.maps.2gis.com/tiles?x={x}&y={y}&z={z}'), {
+                toggleDisplay: true,
+                position: 'bottomright'
+            }).addTo(map);
+
+            //Add Layer control
+            // L.control.layers.minimap(basemaps, overlays, options).addTo(map);
+
+            //Export button - http://mapbbcode.org/leaflet.html
+            //map.addControl(L.exportControl({ codeid: 'nwrxs' }));
         </script>
     </body>
 </html>
