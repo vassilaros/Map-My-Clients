@@ -2,6 +2,9 @@
 <html>
     <head>
         <title>Web Map</title>
+
+        <script src="../src/leaflet.geojsoncss.min.js"></script>
+
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
               integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
               crossorigin=""/>
@@ -18,18 +21,26 @@
 
         <link rel="stylesheet" href="L.Control.ZoomMin.css" media="screen">
         <script src="L.Control.ZoomMin.js"></script>
+        <script src="../src/ExportButton.js"></script>
         <style>
             #map {
                 width: 1150px;
                 height:750px;
                 border: solid 1px gray;
             }
+
+            <script>
+            $.ajaxSetup({ dataType: 'json' });
+            </script>
         </style>
         <link rel="stylesheet" href="control.layers.minimap.css" />
     </head>
     <body>
         <div id="map"></div>
         <script>
+
+            //var teardrop = new
+            //L.Icon({iconurl:"../src/images/baseline-person_pin_circle-24px.svg"});
 
             var southWest = L.latLng(34.213648,32.093747),
                 northEast = L.latLng(35.935348,34.943453),
@@ -87,8 +98,10 @@
                 position: 'bottomright'
             }).addTo(map);
 
+            //L.geoJson.css(json).addTo(map);
+
             //Export button - http://mapbbcode.org/leaflet.html
-            //map.addControl(L.exportControl({ codeid: 'nwrxs' }));
+            map.addControl(L.exportControl({ codeid: 'nwrxs' }));
 
         </script>
     </body>
