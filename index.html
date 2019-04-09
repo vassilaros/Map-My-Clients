@@ -60,7 +60,7 @@
 
             $.getJSON("https://gist.githubusercontent.com/vassilaros/3791204ca226d5b236b4cd3106ef23cf/raw/PicnicSites.geojson", function(data) { addDataToMap(data, map); });
 
-            L.tileLayer('http://tile1.maps.2gis.com/tiles?x={x}&y={y}&z={z}', {
+            L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
                 attribution: '&copy; <a href="http://www.acgoldman.com/">Goldman Solutions & Services</a> contributors'}).addTo(map);
 
             //https://savaslabs.com/2015/05/18/mapping-geojson.html
@@ -93,7 +93,7 @@
 
             //Mini map
             map.setView(new L.LatLng(35.126411,33.429859),9); // add correct lat/lng
-            var miniMap = new L.Control.MiniMap(L.tileLayer('http://tile1.maps.2gis.com/tiles?x={x}&y={y}&z={z}'), {
+            var miniMap = new L.Control.MiniMap(L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}'), {
                 toggleDisplay: true,
                 position: 'bottomright'
             }).addTo(map);
