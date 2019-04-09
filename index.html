@@ -55,13 +55,22 @@
                 zoomControl: false
             });
 
+
+
+
             //Add control tool with full zoom (https://github.com/alanshaw/leaflet-zoom-min/)
             map.addControl(new L.Control.ZoomMin())
 
             $.getJSON("https://gist.githubusercontent.com/vassilaros/3791204ca226d5b236b4cd3106ef23cf/raw/PicnicSites.geojson", function(data) { addDataToMap(data, map); });
 
-            L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+            var Esri_WorldStreetMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
                 attribution: '&copy; <a href="http://www.acgoldman.com/">Goldman Solutions & Services</a> contributors'}).addTo(map);
+
+
+            var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+                attribution: '&copy; <a href="http://www.acgoldman.com/">Goldman Solutions & Services</a> contributors'}).addTo(map);
+
+            L.control.layers(basemaps);
 
             //https://savaslabs.com/2015/05/18/mapping-geojson.html
             function addDataToMap(data, map) {
@@ -102,6 +111,13 @@
 
             //Export button - http://mapbbcode.org/leaflet.html
             map.addControl(L.exportControl({ codeid: 'nwrxs' }));
+
+            var basemaps = {
+                "Satelite" : Esri_WorldImagery,
+                "StreetMap" : Esri_WorldStreetMap
+            };
+
+            L.control.layers(basemaps).addTo(map);
 
         </script>
     </body>
