@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Web Map</title>
+        <title>Map My Clients</title>
 
 
         <script src="../src/leaflet.geojsoncss.min.js"></script>
@@ -9,10 +9,12 @@
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
               integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
               crossorigin=""/>
+
         <!-- Make sure you put this AFTER Leaflet's CSS -->
         <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
                 integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
                 crossorigin=""></script>
+
         <!--<script src="https://maps.api.2gis.ru/2.0/loader.js?pkg=full"></script>-->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 
@@ -23,7 +25,6 @@
         <link rel="stylesheet" href="L.Control.ZoomMin.css" media="screen">
         <script src="L.Control.ZoomMin.js"></script>
         <script src="../src/ExportButton.js"></script>
-        <script src="https://unpkg.com/leaflet-lasso@latest/dist/leaflet-lasso.min.js"></script>
 
         <style>
             #map {
@@ -61,17 +62,18 @@
             //Add control tool with full zoom (https://github.com/alanshaw/leaflet-zoom-min/)
             map.addControl(new L.Control.ZoomMin())
 
+            //Link to GeoJson
             $.getJSON("https://gist.githubusercontent.com/vassilaros/3791204ca226d5b236b4cd3106ef23cf/raw/PicnicSites.geojson", function(data) { addDataToMap(data, map); });
 
+            //Esri World Street Map
             var Esri_WorldStreetMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
                 attribution: '&copy; <a href="http://www.acgoldman.com/">Goldman Solutions & Services</a> contributors'}).addTo(map);
 
-
+            //Esri Satelite Map
             var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
                 attribution: '&copy; <a href="http://www.acgoldman.com/">Goldman Solutions & Services</a> contributors'}).addTo(map);
 
             L.control.layers(basemaps);
-
 
             //https://savaslabs.com/2015/05/18/mapping-geojson.html
             function addDataToMap(data, map) {
@@ -84,8 +86,6 @@
                 });
                 dataLayer.addTo(map);
             }
-
-
 
             //Add scale to map
             L.control.scale().addTo(map);
