@@ -3,6 +3,7 @@
     <head>
         <title>Web Map</title>
 
+
         <script src="../src/leaflet.geojsoncss.min.js"></script>
 
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
@@ -22,6 +23,8 @@
         <link rel="stylesheet" href="L.Control.ZoomMin.css" media="screen">
         <script src="L.Control.ZoomMin.js"></script>
         <script src="../src/ExportButton.js"></script>
+        <script src="https://unpkg.com/leaflet-lasso@latest/dist/leaflet-lasso.min.js"></script>
+
         <style>
             #map {
                 width: 1150px;
@@ -55,9 +58,6 @@
                 zoomControl: false
             });
 
-
-
-
             //Add control tool with full zoom (https://github.com/alanshaw/leaflet-zoom-min/)
             map.addControl(new L.Control.ZoomMin())
 
@@ -72,6 +72,7 @@
 
             L.control.layers(basemaps);
 
+
             //https://savaslabs.com/2015/05/18/mapping-geojson.html
             function addDataToMap(data, map) {
                 var dataLayer = L.geoJson(data, {
@@ -79,10 +80,12 @@
                         var popupText = "Name: " + feature.properties.Name
                         + "<br>Location: " + feature.properties.place
                         + "<br><a href='" + feature.properties.url + "'>More info</a>";
-                        layer.bindPopup(popupText); }
+                        layer.bindPopup(popupText);}
                 });
                 dataLayer.addTo(map);
             }
+
+
 
             //Add scale to map
             L.control.scale().addTo(map);
