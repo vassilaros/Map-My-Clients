@@ -63,7 +63,7 @@
             map.addControl(new L.Control.ZoomMin())
 
             //Link to GeoJson
-            $.getJSON("https://gist.githubusercontent.com/vassilaros/3791204ca226d5b236b4cd3106ef23cf/raw/PicnicSites.geojson", function(data) { addDataToMap(data, map); });
+            //$.getJSON("https://gist.githubusercontent.com/vassilaros/3791204ca226d5b236b4cd3106ef23cf/raw/PicnicSites.geojson", function(data) { addDataToMap(data, map); });
 
             //Esri World Street Map
             var Esri_WorldStreetMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
@@ -93,14 +93,16 @@
               $.getJSON("https://gist.githubusercontent.com/vassilaros/3791204ca226d5b236b4cd3106ef23cf/raw/PicnicSites.geojson",function(data){
                   var baseline_person = L.icon({
                       iconUrl: '../src/images/baseline-person_pin_circle-24px.svg',
-                      iconSize: [18,18]
+                      iconSize: [20,20]
                   });
+
                 // add GeoJSON layer to the map once the file is loaded
                 L.geoJSON(data, {
                     pointToLayer: function(feture, latlng){
                         return L.marker(latlng,{icon: baseline_person});
                     }
-                }).addTo(map);
+                }).addTo(map)
+                  .bindPopup('<strong>Science Hall</strong><br>Where the GISC was born.');
               });
 
             //Add scale to map
